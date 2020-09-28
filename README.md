@@ -52,16 +52,16 @@ Things you may want to cover:
 | condition_id        | integer     | null: false                    |
 | shipping_charges_id | integer     | null: false                    |
 | shipping_area_id    | integer     | null: false                    |
-| Days_to_ship_id     | integer     | null: false                    |
+| days_to_ship_id     | integer     | null: false                    |
 | user                | references  | null: false, foreign_key: true |
 
 ### Association
 
 - has_many :comments
 - has_one  :order_history
-- belongs_to :user, 
+- belongs_to :user
 
-## address テーブル
+## addresses テーブル
 
 | Column             | Type       | Option                         |
 |--------------------| ---------- | ------------------------------ |
