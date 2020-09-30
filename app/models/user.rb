@@ -4,9 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-with_options presence: true, format: { with: /\A[ぁ-んァ-ン一-龥]+\z/, message: 'には全角文字を使用してください' } do
-validates :first_name_kanji, :last_name_kanji
-end
+validates :first_name_kanji, :last_name_kanji, presence: true, format: { with: /\A[ぁ-んァ-ン一-龥]+\z/, message: 'には全角文字を使用してください' }
 validates :first_name_kana, :last_name_kana, presence: true, format: { with: /\A[ァ-ン]+\z/, message: 'はカタカナで入力して下さい'}
 validates :nickname, :birthday, presence:true
 validates :password, presence: true, length: {minimum: 6 }
