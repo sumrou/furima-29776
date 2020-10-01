@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :items
+
 validates :first_name_kanji, :last_name_kanji, presence: true, format: { with: /\A[ぁ-んァ-ン一-龥]+\z/, message: 'には全角文字を使用してください' }
 validates :first_name_kana, :last_name_kana, presence: true, format: { with: /\A[ァ-ン]+\z/, message: 'はカタカナで入力して下さい'}
 validates :nickname, :birthday, presence:true
