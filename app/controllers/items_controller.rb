@@ -1,8 +1,7 @@
 class ItemsController < ApplicationController
-before_action :move_to_sign_in, except: [:index, :show]
+  before_action :move_to_sign_in, except: [:index, :show]
 
   def index
-    
   end
 
   def new
@@ -12,13 +11,12 @@ before_action :move_to_sign_in, except: [:index, :show]
   def create
     @item = Item.new(item_params)
     if @item.valid?
-     @item.save
+      @item.save
       redirect_to root_path
     else
       render :new
     end
   end
-  
 
   private
 
@@ -27,8 +25,6 @@ before_action :move_to_sign_in, except: [:index, :show]
   end
 
   def move_to_sign_in
-    unless user_signed_in?
-      redirect_to new_user_session_path
-    end
+    redirect_to new_user_session_path unless user_signed_in?
   end
 end
