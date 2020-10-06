@@ -58,6 +58,11 @@ describe Item do
         @item.valid?
         expect(@item.errors.full_messages).to include('Priceは300~9,999,999の間で入力してください')
       end
+      it '価格が半角数字でないと入力できない' do
+        @item.price = '３０００'
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Priceは半角数字で入力してください')
+      end
       it '価格が300円未満だと出品できない' do
         @item.price = 299
         @item.valid?
