@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
   before_action :move_to_sign_in, except: [:index, :show]
-  before_action :set_item, only: [:edit, :show, :update]
-  before_action :judge_seller, only:[:edit, :upgdate]
+  before_action :set_item, only: [:edit, :show, :update, :destroy]
+  before_action :judge_seller, only:[:edit, :update, :destroy]
 
   def index
     @items = Item.all.order('created_at DESC')
@@ -35,6 +35,14 @@ class ItemsController < ApplicationController
     end
   end
 
+  def destroy
+    if @item.destroy
+       redirect_to root_path
+    else
+      render :show
+    end
+  end
+
   private
 
   def item_params
@@ -52,8 +60,6 @@ class ItemsController < ApplicationController
       redirect_to root_path
     end
   end
-
-
 
   def set_item
     @item = Item.find(params[:id])
