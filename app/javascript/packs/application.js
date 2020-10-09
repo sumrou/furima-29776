@@ -7,7 +7,7 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
-require("../items_new")
+require("../items_new_edit")
 require("../items_index")
 
 
