@@ -1,10 +1,10 @@
 class OrderManagement
   include ActiveModel::Model
-  attr_accessor :postal_code, :shipping_area, :municipality, :address, :building_name, :telephone_number
+  attr_accessor :postal_code, :shipping_area_id, :municipality, :address, :building_name, :telephone_number, :item_id, :user_id
 
   def save
-    orderHistory = OrderHistory.create(user_id: user.id, item_id: item.id)
+    orderHistory = OrderHistory.create(user_id: user_id, item_id: item_id)
 
-    Address.create(postal_code: postal_code, shipping: shipping_area, municipality: municipality, address: address, building_name: building_name, telephone_number: telephone_number, order_history_id: orderHistory.id)
+    Address.create(postal_code: postal_code, shipping_area_id: shipping_area_id, municipality: municipality, address: address, building_name: building_name, telephone_number: telephone_number, order_history_id: orderHistory.id)
   end
 end
