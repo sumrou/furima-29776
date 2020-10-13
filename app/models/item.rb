@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   belongs_to_active_hash :condition
 
   belongs_to :user
+  has_one :order_history
   has_one_attached :image
 
   validates :image, presence: true
