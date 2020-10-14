@@ -1,17 +1,16 @@
 class OrdersController < ApplicationController
   before_action :move_to_sign_in, only: [:index, :create, :update]
   before_action :judge_seller, only: [:index, :create]
-  before_action :sold_out
+  before_action :set_item, only: [:index, :create]
+  before_action :authenticate_user!
+
 
   def index
     @order = OrderManagement.new(order_params)
-    @item = Item.find(params[:item_id])
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @order = OrderManagement.new(order_params)
-    binding.pry
     if @order.valid?
       pay_item
       @order.save
@@ -31,13 +30,12 @@ class OrdersController < ApplicationController
     params.permit(:postal_code, :shipping_area_id, :municipality, :address, :building_name, :telephone_number, :item_id).merge(user_id: current_user.id, token: params[:token])
   end
 
-  def sold_out
-    item = Item.find(params[:item_id])
-    redirect_to root_path unless item.order_history.nil?
-  end
-
   def judge_seller
     redirect_to root_path if Item.find(params[:item_id]).user.id == current_user.id
+  end
+  
+  def set_item
+    @item = Item.find(params[:item_id])
   end
 
   def pay_item

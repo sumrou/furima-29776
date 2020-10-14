@@ -9,6 +9,11 @@ describe OrderManagement do
       it 'ユーザーログインしていてクレジットカード情報と発送のための情報が全て入っていれば出品できる' do
         expect(@order).to be_valid
       end
+
+      it '建物名が空欄でも購入ができること' do
+        @order.building_name = nil
+        expect(@order).to be_valid
+      end
     end
 
     context '購入がうまくいかないとき' do
