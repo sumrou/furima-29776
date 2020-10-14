@@ -15,7 +15,7 @@ describe Address do
       it 'クレジットカード情報が入力されていないと購入できない' do
         @address.token = nil
         @address.valid?
-        expect(@address.errors.full_messages).to include("Tokenを入力してください")
+        expect(@address.errors.full_messages).to include('Tokenを入力してください')
       end
 
       it '郵便番号が入力されていないと購入できない' do
@@ -24,7 +24,7 @@ describe Address do
         expect(@address.errors.full_messages).to include('Postal codeは上3ケタ-下4ケタで入力してください')
       end
       it '郵便番号が正しいケタで入力されていないと購入できない' do
-        @address.postal_code = "1234-5678"
+        @address.postal_code = '1234-5678'
         @address.valid?
         expect(@address.errors.full_messages).to include('Postal codeは上3ケタ-下4ケタで入力してください')
       end
@@ -49,17 +49,17 @@ describe Address do
         expect(@address.errors.full_messages).to include('Telephone numberを入力してください')
       end
       it '電話番号が10ケタより少なく入力されていると購入できない' do
-        @address.telephone_number = "123456789"
+        @address.telephone_number = '123456789'
         @address.valid?
         expect(@address.errors.full_messages).to include('Telephone numberは正しく入力してください')
       end
       it '電話番号が11ケタより多く入力されていると購入できない' do
-        @address.telephone_number = "123456789012"
+        @address.telephone_number = '123456789012'
         @address.valid?
         expect(@address.errors.full_messages).to include('Telephone numberは正しく入力してください')
       end
       it '電話番号が数字以外が入力されていると購入できない' do
-        @address.telephone_number = "abcdefghijk"
+        @address.telephone_number = 'abcdefghijk'
         @address.valid?
         expect(@address.errors.full_messages).to include('Telephone numberは正しく入力してください')
       end

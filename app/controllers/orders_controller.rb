@@ -1,31 +1,30 @@
 class OrdersController < ApplicationController
-  before_action :move_to_sign_in, only:[:index, :create, :update]
-  before_action :judge_seller, only:[:index, :create]
+  before_action :move_to_sign_in, only: [:index, :create, :update]
+  before_action :judge_seller, only: [:index, :create]
   before_action :sold_out
 
   def index
+    @order = OrderManagement.new(order_params)
     @item = Item.find(params[:item_id])
   end
 
   def create
     @item = Item.find(params[:item_id])
     @order = OrderManagement.new(order_params)
+    binding.pry
     if @order.valid?
       pay_item
       @order.save
-      return redirect_to root_path
+      redirect_to root_path
     else
       render 'index'
     end
   end
-  
 
   private
 
   def move_to_sign_in
-    unless user_signed_in?
-      redirect_to new_user_session_path
-    end
+    redirect_to new_user_session_path unless user_signed_in?
   end
 
   def order_params
@@ -34,23 +33,19 @@ class OrdersController < ApplicationController
 
   def sold_out
     item = Item.find(params[:item_id])
-    if item.order_history != nil
-      redirect_to root_path
-    end
+    redirect_to root_path unless item.order_history.nil?
   end
 
   def judge_seller
-    if Item.find(params[:item_id]).user.id == current_user.id
-      redirect_to root_path
-    end
+    redirect_to root_path if Item.find(params[:item_id]).user.id == current_user.id
   end
 
   def pay_item
-      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  # 秘密鍵(書いてる時pushしてはいけない)
-      Payjp::Charge.create(
-        amount: @item.price,  # 値段
-        card: order_params[:token],    # カードトークン
-        currency: 'jpy'                 # 通貨の種類
-      )
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']  # 秘密鍵(書いてる時pushしてはいけない)
+    Payjp::Charge.create(
+      amount: @item.price, # 値段
+      card: order_params[:token], # カードトークン
+      currency: 'jpy'                 # 通貨の種類
+    )
   end
 end
