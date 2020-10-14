@@ -33,6 +33,11 @@ describe OrderManagement do
         @order.valid?
         expect(@order.errors.full_messages).to include('Postal codeは上3ケタ-下4ケタで入力してください')
       end
+      it '郵便番号は-(ハイフン)が入っていないと購入できない' do
+        @order.postal_code = '1234567'
+        @order.valid?
+        expect(@order.errors.full_messages).to include('Postal codeは上3ケタ-下4ケタで入力してください')
+      end
       it '発送の県が選ばれていないと購入できない' do
         @order.shipping_area_id = 1
         @order.valid?
