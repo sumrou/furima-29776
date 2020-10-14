@@ -1,9 +1,8 @@
 class OrdersController < ApplicationController
-  before_action :move_to_sign_in, only: [:index, :create, :update]
+  before_action :authenticate_user!
   before_action :judge_seller, only: [:index, :create]
   before_action :set_item, only: [:index, :create]
-  before_action :authenticate_user!
-
+  before_action :sold_out
 
   def index
     @order = OrderManagement.new(order_params)
@@ -22,18 +21,19 @@ class OrdersController < ApplicationController
 
   private
 
-  def move_to_sign_in
-    redirect_to new_user_session_path unless user_signed_in?
-  end
-
   def order_params
     params.permit(:postal_code, :shipping_area_id, :municipality, :address, :building_name, :telephone_number, :item_id).merge(user_id: current_user.id, token: params[:token])
+  end
+
+  def sold_out
+    item = Item.find(params[:item_id])
+    redirect_to root_path unless item.order_history.nil?
   end
 
   def judge_seller
     redirect_to root_path if Item.find(params[:item_id]).user.id == current_user.id
   end
-  
+
   def set_item
     @item = Item.find(params[:item_id])
   end
