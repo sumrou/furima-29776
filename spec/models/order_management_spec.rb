@@ -73,6 +73,11 @@ describe OrderManagement do
         @order.valid?
         expect(@order.errors.full_messages).to include('Telephone numberは正しく入力してください')
       end
+      it '電話番号に-(ハイフン)が入っていると購入できない' do
+        @order.telephone_number = '1234-67890'
+        @order.valid?
+        expect(@order.errors.full_messages).to include('Telephone numberは正しく入力してください')
+      end
     end
   end
 end
