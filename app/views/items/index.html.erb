@@ -127,7 +127,7 @@
     <ul class='item-lists'>
 
       <%# 商品のインスタンス変数になにか入っている場合、中身のすべてを展開できるようにしましょう %>
-      <% if @items != nil %>
+      <% if @items.length != 0 %>
        <% @items.each do |item| %>
         <li class='list'>
          <%= link_to item_path(item.id), method: :get do %>
@@ -135,10 +135,11 @@
           <%= image_tag item.image, class: "item-img" %>
 
           <%# 商品が売れていればsold outを表示しましょう %>
+          <% if item.order_history != nil %>
           <div class='sold-out'>
             <span>Sold Out!!</span>
           </div>
-
+          <% end %>
           <%# //商品が売れていればsold outを表示しましょう %>
 
         </div>
